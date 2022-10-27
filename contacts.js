@@ -18,8 +18,8 @@ async function getContactById(contactId) {
 }
   
 async function removeContact(contactId) {
-  const dbRaw = await fs.readFile(contactsPath)
-  const db = JSON.parse(dbRaw)
+  const dbRaw = await fs.readFile(contactsPath);
+  const db = JSON.parse(dbRaw);
 
   const index = db.findIndex(contact => contact.id === contactId);
   if(index !== -1) {
