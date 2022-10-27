@@ -23,11 +23,15 @@ async function invokeAction({action, id, name, email, phone}) {
           console.log(contact);
           break
         case "remove":
-          await contactsDb.removeContact(id)
+          const removedContact = await contactsDb.removeContact(id)
+          console.log(`Removed contact:`);
+          console.log(removedContact);
           break
 
         case "add":
-          await contactsDb.addContact(name, email, phone)
+          const addedContact = await contactsDb.addContact(name, email, phone)
+          console.log(`Added new contact:`);
+          console.log(addedContact);
           break
 
         default:

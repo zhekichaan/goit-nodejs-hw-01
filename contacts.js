@@ -20,28 +20,25 @@ async function getContactById(contactId) {
 async function removeContact(contactId) {
   const dbRaw = await fs.readFile(contactsPath);
   const db = JSON.parse(dbRaw);
-
   const index = db.findIndex(contact => contact.id === contactId);
   if(index !== -1) {
-    console.log(`Deleted contact: `);
-    console.log(db[index]);
+  const contact = db[index];
   db.splice(index, 1);
   await fs.writeFile(contactsPath, JSON.stringify(db))
-
+  return contact;
   } else {
-    console.log(`There is no contact with this id: ${contactId}`);
+    throw new Error("Unknown id")
   }
 }
   
 async function addContact(name, email, phone) {
   const id = nanoid()
-  const contact = { id, name, email, phone } 
+  const contact = { id, name, email, phone }
   const dbRaw = await fs.readFile(contactsPath)
   const db = JSON.parse(dbRaw)
   db.push(contact)
   await fs.writeFile(contactsPath, JSON.stringify(db))
-  console.log(`Added new contact`);
-  console.log(contact);
+  return contact;
 }
   
 module.exports = {
