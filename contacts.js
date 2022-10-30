@@ -14,21 +14,22 @@ async function getContactById(contactId) {
   const dbRaw = await fs.readFile(contactsPath)
   const db = JSON.parse(dbRaw)
   const contact = db.find(contact => contact.id === contactId);
+  if(!contact) {
+    return null
+  }
   return contact
 }
   
 async function removeContact(contactId) {
   const dbRaw = await fs.readFile(contactsPath);
   const db = JSON.parse(dbRaw);
-  const index = db.findIndex(contact => contact.id === contactId);
-  if(index !== -1) {
-  const contact = db[index];
-  db.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(db))
-  return contact;
-  } else {
-    throw new Error("Unknown id")
+  const contact = db.find((item) => item.id === contactId)
+  if(!contact) {
+    return null
   }
+  const contacts = db.filter((item) => item.id !== contactId)
+  await fs.writeFile(contactsPath, JSON.stringify(contacts))
+  return contact;
 }
   
 async function addContact(name, email, phone) {
